@@ -1,8 +1,6 @@
 import database from "infra/database";
 
 async function status(request, response) {
-  let variavelEsquecida;
-
   const updadeteAt = new Date().toISOString();
 
   const databaseVersionResult = await database.query("SHOW server_version;");
