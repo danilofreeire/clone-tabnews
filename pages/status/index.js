@@ -27,13 +27,13 @@ function CondicionalRender({ isLoading, data, children }) {
     );
   }
 }
-function swrConfig() {
+function SwrConfig() {
   return useSWR("/api/v1/status", fetchAPI, {
     refreshInterval: 2000,
   });
 }
 function UpdatedAt() {
-  const { isLoading, data } = swrConfig();
+  const { isLoading, data } = SwrConfig();
 
   if (isLoading) {
     return <div>Carregando...</div>;
@@ -46,7 +46,7 @@ function UpdatedAt() {
 }
 
 function Version() {
-  const { isLoading, data } = swrConfig();
+  const { isLoading, data } = SwrConfig();
   if (isLoading) {
     return <div>Carregando...</div>;
   }
@@ -58,7 +58,7 @@ function Version() {
 }
 
 function MaxConnections() {
-  const { isLoading, data } = swrConfig();
+  const { isLoading, data } = SwrConfig();
   if (isLoading) {
     return <div>Carregando...</div>;
   }
@@ -70,7 +70,7 @@ function MaxConnections() {
 }
 
 function OpenedConnections() {
-  const { isLoading, data } = swrConfig();
+  const { isLoading, data } = SwrConfig();
   if (isLoading) {
     return <div>Carregando...</div>;
   }
