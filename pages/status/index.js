@@ -10,73 +10,41 @@ export default function StatusPage() {
   return (
     <>
       <h1>Status</h1>
-      <UpdatedAt />
-      <Version />
-      <MaxConnections />
-      <OpenedConnections />
+      <DatabaseStatus />
     </>
   );
 }
 
-function CondicionalRender({ isLoading, data, children }) {
+function DatabaseStatus() {
+  const { isLoading, data } = useSWR("/api/v1/status", fetchAPI, {
+    refreshInterval: 2000,
+  });
+  let databaseStatusInformation = "Carregando...";
+  let lastUpdated = "Carregando...";
   if (!isLoading && data) {
-    return (
+    databaseStatusInformation = (
+      <>
+        <div>Versão: {data.dependencies.database.version}</div>
+        <div>
+          Máximo de conexões: {data.dependencies.database.max_connections}
+        </div>
+        <div>
+          Conexões abertas: {data.dependencies.database.opened_connections}
+        </div>
+      </>
+    );
+    lastUpdated = (
       <div>
-        {children}: {data}
+        Ultima atualização: {new Date(data.updated_at).toLocaleString()};
       </div>
     );
   }
-}
-function SwrConfig() {
-  return useSWR("/api/v1/status", fetchAPI, {
-    refreshInterval: 2000,
-  });
-}
-function UpdatedAt() {
-  const { isLoading, data } = SwrConfig();
 
-  if (isLoading) {
-    return <div>Carregando...</div>;
-  }
-  return CondicionalRender({
-    isLoading,
-    data: new Date(data.updated_at).toLocaleString(),
-    children: "Última atualização",
-  });
-}
-
-function Version() {
-  const { isLoading, data } = SwrConfig();
-  if (isLoading) {
-    return <div>Carregando...</div>;
-  }
-  return CondicionalRender({
-    isLoading,
-    data: data.dependencies.database.version,
-    children: "Versão",
-  });
-}
-
-function MaxConnections() {
-  const { isLoading, data } = SwrConfig();
-  if (isLoading) {
-    return <div>Carregando...</div>;
-  }
-  return CondicionalRender({
-    isLoading,
-    data: data.dependencies.database.max_connections,
-    children: "Máximo de conexões",
-  });
-}
-
-function OpenedConnections() {
-  const { isLoading, data } = SwrConfig();
-  if (isLoading) {
-    return <div>Carregando...</div>;
-  }
-  return CondicionalRender({
-    isLoading,
-    data: data.dependencies.database.opened_connections,
-    children: "Conexões abertas",
-  });
+  return (
+    <div>
+      {lastUpdated}
+      <h1>Database</h1>
+      {databaseStatusInformation}
+    </div>
+  );
 }
