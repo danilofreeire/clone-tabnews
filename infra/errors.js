@@ -5,7 +5,7 @@ export class InternalServerError extends Error {
     });
     this.name = "InternalServerError";
     this.action = "Entre em contato com o suporte.";
-    this.statusCode = statusCode ||  500;
+    this.statusCode = statusCode || 500;
   }
 
   toJSON() {
@@ -18,9 +18,8 @@ export class InternalServerError extends Error {
   }
 }
 
-
 export class ServiceError extends Error {
-  constructor({ cause, message}) {
+  constructor({ cause, message }) {
     super(message || "Serviço indisponível no momento.", {
       cause,
     });

@@ -8,7 +8,6 @@ router.get(getHandler);
 
 export default router.handler(controller.errorHandlers);
 
-
 async function getHandler(request, response) {
   const updadeteAt = new Date().toISOString();
 
