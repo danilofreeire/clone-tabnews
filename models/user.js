@@ -79,6 +79,16 @@ async function create(userInputValues) {
     }
   }
 
+  async function hashPasswordInObject(userInputValues) {
+    console.log(userInputValues);
+    const hashedPassword = await password.hash(userInputValues.password);
+    console.log(
+      `\n\n\n\n\n -------------- \n TESTEEE ${hashedPassword} \n\n\n\n\n\n`,
+    );
+
+    userInputValues.password = hashedPassword;
+  }
+
   async function runInsertQuery(userInputValues) {
     const results = await database.query({
       text: `INSERT INTO 
